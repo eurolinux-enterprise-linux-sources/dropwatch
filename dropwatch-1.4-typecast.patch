@@ -1,0 +1,26 @@
+diff -up dropwatch-1.4/src/lookup_kas.c.typecast dropwatch-1.4/src/lookup_kas.c
+--- dropwatch-1.4/src/lookup_kas.c.typecast	2012-08-27 14:00:07.008473145 +0200
++++ dropwatch-1.4/src/lookup_kas.c	2012-08-27 13:59:41.000000000 +0200
+@@ -102,7 +102,8 @@ static int lookup_kas_proc(__u64 pc, str
+ 		 *  - "%pK %c %s\n" (for kernel internal symbols), or
+ 		 *  - "%pK %c %s\t[%s]\n" (for module-provided symbols)
+ 		 */
+-		if (fscanf(pf, "%llx %*s %as [ %*[^]] ]", &ppc, &name) < 0) {
++		if (fscanf(pf, "%llx %*s %as [ %*[^]] ]",
++					(unsigned long long *)&ppc, &name) < 0) {
+ 			perror("Error Scanning File: ");
+ 			break;
+ 		}
+diff -up dropwatch-1.4/src/main.c.typecast dropwatch-1.4/src/main.c
+--- dropwatch-1.4/src/main.c.typecast	2012-05-31 00:33:50.000000000 +0200
++++ dropwatch-1.4/src/main.c	2012-08-27 13:59:56.621473369 +0200
+@@ -333,7 +333,8 @@ void handle_dm_alert_msg(struct netlink_
+ 			printf ("%d drops at location %p\n", alert->points[i].count, location);
+ 		else
+ 			printf ("%d drops at %s+%llx (%p)\n",
+-				alert->points[i].count, res.symbol, res.offset, location);
++				alert->points[i].count, res.symbol,
++				(unsigned long long)res.offset, location);
+ 		acount++;
+ 		if (alimit && (acount == alimit)) {
+ 			printf("Alert limit reached, deactivating!\n");
