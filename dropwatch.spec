@@ -1,9 +1,9 @@
 Summary: Kernel dropped packet monitor 
 Name: dropwatch 
 Version: 1.4
-Release: 8%{?dist} 
-Source0: https://fedorahosted.org/releases/d/r/dropwatch/dropwatch-%{version}.tbz2
-URL: http://fedorahosted.org/dropwatch
+Release: 9%{?dist} 
+Source0: https://github.com/nhorman/dropwatch/archive/dropwatch-%{version}.tbz2
+URL: https://github.com/nhorman/dropwatch 
 License: GPLv2+ 
 Group: Applications/System 
 Patch0: dropwatch-1.4-typecast.patch
@@ -44,6 +44,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc COPYING
 
 %changelog
+* Thu Dec 13 2018 Neil Horman <nhorman@redhat.com> -1.4-9
+- Fixing Source and URL to match new github location (bz 1501730)
+
 * Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 1.4-8
 - Mass rebuild 2014-01-24
 
