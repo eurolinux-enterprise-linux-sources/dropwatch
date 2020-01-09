@@ -1,7 +1,7 @@
 Summary: Kernel dropped packet monitor 
 Name: dropwatch 
 Version: 1.2
-Release: 0%{?dist} 
+Release: 1%{?dist} 
 Source0: https://fedorahosted.org/releases/d/r/dropwatch/dropwatch-%{version}.tbz2
 URL: http://fedorahosted.org/dropwatch
 License: GPLv2+ 
@@ -11,12 +11,15 @@ BuildRequires: libnl-devel, readline-devel, kernel-headers
 BuildRequires: binutils-devel
 Requires: libnl, readline
 
+Patch0: dropwatch-1.2-double_free.patch
+
 %description
 dropwatch is an utility to interface to the kernel to monitor for dropped
 network packets.
 
 %prep
 %setup -q
+%patch0 -p1 -b .double_free
 
 %build
 cd src
@@ -42,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc COPYING
 
 %changelog
+* Thu Feb 16 2012 Anton Arapov <anton@redhat.com> - 1.2-1
+- Fix the segmentation fault due to double free (bz684713)
+
 * Wed Jun 30 2010 Neil Horman <nhorman@redhat.com> - 1.2-0
 - Updated to latest upstream to fix segfault (bz581815)
 

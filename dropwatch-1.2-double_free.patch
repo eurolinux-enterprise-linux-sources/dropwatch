@@ -1,0 +1,36 @@
+From fad02fbcc24919038d650d27ff5a4f8d72e47e52 Mon Sep 17 00:00:00 2001
+From: Neil Horman <nhorman@tuxdriver.com>
+Date: Fri, 25 Mar 2011 16:55:54 -0400
+Subject: [PATCH] Fix double free during start/stop
+
+Anton Aarapov noted a double free in dropwatch during the issuance of start
+and
+stop messages.  Seems the ack callbacks for netlink messages free the netlink
+buffers, then their freed again in recv_netlink_message
+
+Signed-off-by: Neil Horman <nhorman@tuxdriver.com>
+---
+ src/main.c |    4 ----
+ 1 files changed, 0 insertions(+), 4 deletions(-)
+
+diff -up dropwatch-1.2/src/main.c.double_free dropwatch-1.2/src/main.c
+--- dropwatch-1.2/src/main.c.double_free	2012-02-16 12:27:56.857621697 +0100
++++ dropwatch-1.2/src/main.c	2012-02-16 12:31:47.163458534 +0100
+@@ -372,8 +372,6 @@ void handle_dm_start_msg(struct netlink_
+ 		state = STATE_FAILED;
+ 	}
+ out:
+-	free_netlink_msg(msg);
+-	free_netlink_msg(amsg);
+ 	return;
+ }
+ 
+@@ -382,8 +380,6 @@ void handle_dm_stop_msg(struct netlink_m
+ 	printf("Got a stop message\n");
+ 	if (err == 0)
+ 		state = STATE_IDLE;
+-	free_netlink_msg(msg);
+-	free_netlink_msg(amsg);
+ }
+ 
+ int enable_drop_monitor()
