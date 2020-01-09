@@ -1,7 +1,7 @@
 Summary: Kernel dropped packet monitor 
 Name: dropwatch 
 Version: 1.4
-Release: 6%{?dist} 
+Release: 8%{?dist} 
 Source0: https://fedorahosted.org/releases/d/r/dropwatch/dropwatch-%{version}.tbz2
 URL: http://fedorahosted.org/dropwatch
 License: GPLv2+ 
@@ -44,6 +44,12 @@ rm -rf $RPM_BUILD_ROOT
 %doc COPYING
 
 %changelog
+* Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 1.4-8
+- Mass rebuild 2014-01-24
+
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 1.4-7
+- Mass rebuild 2013-12-27
+
 * Sun May 12 2013 Anton Arapov <anton@redhat.com> - 1.4-6
 - Fix the build for ppc platform. Typecast issue (#960092)
 
